@@ -1,0 +1,21 @@
+{
+    "name": "bazo/nette-neo4j-extension",
+	"type": "library",
+    "description": "Nette Neo4j compiler extension",
+    "keywords": ["nette", "neo4j", "graph", "database", "extension"],
+    "homepage": "https://github.com/bazo/nette-neo4j-extension",
+    "authors": [
+        {
+            "name": "Martin Bažík",
+            "email": "martin@bazo.sk",
+            "homepage": "http://bazo.sk"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+		"hirevoice/neo4jphp-ogm": "*"
+    },
+	"autoload": {
+        "psr-0": { "Bazo\\Extensions\\Neo4j": "" }
+    }
+}
