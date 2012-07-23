@@ -33,12 +33,12 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 		
 		$container->addDefinition($this->prefix('neo4jClient'))
 			->setClass('\Everyman\Neo4j\Client')
-			->setFactory('Extensions\EntityManagerExtension::createNeo4jClient', array('@container', $config))
+			->setFactory('Bazo\Extensions\Neo4j\DI\Neo4jExtension::createNeo4jClient', array('@container', $config))
 			->setAutowired(FALSE);
 		
 		$container->addDefinition($this->prefix('entityManager'))
 			->setClass('\HireVoice\Neo4j\EntityManager')
-			->setFactory('Extensions\EntityManagerExtension::createEntityManager', array('@container', $config))
+			->setFactory('Bazo\Extensions\Neo4j\DI\Neo4jExtension::createEntityManager', array('@container', $config))
 			->setAutowired(FALSE);
 
 		$container->addDefinition('entityManager')
