@@ -49,7 +49,7 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 			->setFactory('@container::getService', array($this->prefix('entityManager')));
 		
 		$builder->addDefinition($this->prefix('panel'))
-			->setFactory('Kdyby\Extension\Redis\Diagnostics\Panel::register');
+			->setFactory('\Bazo\Extensions\Neo4j\Diagnostics\Panel::register');
 	}
 	
 	public static function createNeo4jClient(\Nette\DI\Container $container, $config)
