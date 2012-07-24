@@ -26,19 +26,18 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 	 */
 	public function loadConfiguration()
 	{
-		
 		$container = $this->getContainerBuilder();
 		
 		$config = $this->getConfig($this->defaults);
 		
-		$container->addDefinition($this->prefix('neo4jClient'))
+		$container->addDefinition($this->prefix('client'))
 			->setClass('\Everyman\Neo4j\Client')
 			->setFactory('Bazo\Extensions\Neo4j\DI\Neo4jExtension::createNeo4jClient', array('@container', $config))
 			->setAutowired(FALSE);
 		
 		$container->addDefinition('neo4jClient')
 			->setClass('\Everyman\Neo4j\Client')
-			->setFactory('@container::getService', array($this->prefix('neo4jClient')));
+			->setFactory('@container::getService', array($this->prefix('client')));
 		
 		$container->addDefinition($this->prefix('entityManager'))
 			->setClass('\HireVoice\Neo4j\EntityManager')
@@ -48,6 +47,9 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 		$container->addDefinition('entityManager')
 			->setClass('\HireVoice\Neo4j\EntityManager')
 			->setFactory('@container::getService', array($this->prefix('entityManager')));
+		
+		$builder->addDefinition($this->prefix('panel'))
+			->setFactory('Kdyby\Extension\Redis\Diagnostics\Panel::register');
 	}
 	
 	public static function createNeo4jClient(\Nette\DI\Container $container, $config)
@@ -76,6 +78,12 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 		$client = $container->neo4jClient;
 		$metaRepository = new \HireVoice\Neo4j\Meta\Repository($reader);
 		$em = new \HireVoice\Neo4j\EntityManager($client, $metaRepository);
+		
+		$panel = $container->neo4j->panel;
+		$em->registerEvent(HireVoice\Neo4j\EntityManager::QUERY_RUN, function($query, $parameters, $time)use($panel){
+			$panel->addQuery($query, $parameters, $time);
+		});
+		
 		$em->setProxyFactory(new \HireVoice\Neo4j\Proxy\Factory($config['proxyDir'], true));
 		return $em;
 	}
