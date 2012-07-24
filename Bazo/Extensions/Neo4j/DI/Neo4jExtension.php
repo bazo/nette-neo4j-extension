@@ -22,7 +22,7 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 		'proxyDir' => '%appDir%/models/proxies'
 	);
 	
-	private 
+	private static
 		$cacheClassMap = array(
 			'array' => '\Doctrine\Common\Cache\ArrayCache',
 			'apc' => '\Doctrine\Common\Cache\ApcCache',
@@ -81,7 +81,7 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 		\Doctrine\Common\Annotations\AnnotationRegistry::registerFile(VENDOR_DIR . '/hirevoice/neo4jphp-ogm/lib/HireVoice/Neo4j/Annotation/ManyToOne.php');
 		\Doctrine\Common\Annotations\AnnotationRegistry::registerFile(VENDOR_DIR . '/hirevoice/neo4jphp-ogm/lib/HireVoice/Neo4j/Annotation/Property.php');
 		
-		$metadataCache = new $this->cacheClassMap($config['metaDataCache']);
+		$metadataCache = new self::$cacheClassMap($config['metaDataCache']);
 		$metadataCache->setNamespace($config['cachePrefix']);
 		
 		$reader = new \Doctrine\Common\Annotations\CachedReader(
