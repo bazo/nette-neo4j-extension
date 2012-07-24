@@ -127,7 +127,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	}
 	
 	/**
-	 * @return \Extensions\Neo4j\Diagnostics\Panel
+	 * @return \Bazo\Extensions\Neo4j\Diagnostics\Panel
 	 */
 	public static function register()
 	{
