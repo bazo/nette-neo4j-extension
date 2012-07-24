@@ -80,7 +80,7 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 		$em = new \HireVoice\Neo4j\EntityManager($client, $metaRepository);
 		
 		$panel = $container->neo4j->panel;
-		$em->registerEvent(HireVoice\Neo4j\EntityManager::QUERY_RUN, function($query, $parameters, $time)use($panel){
+		$em->registerEvent(\HireVoice\Neo4j\EntityManager::QUERY_RUN, function($query, $parameters, $time)use($panel){
 			$panel->addQuery($query, $parameters, $time);
 		});
 		
