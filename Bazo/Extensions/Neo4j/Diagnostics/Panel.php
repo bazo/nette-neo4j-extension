@@ -85,12 +85,12 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 			$s .= '<td class="neo4j-query">' .
 				$h(self::$maxLength ? Nette\Utils\Strings::truncate($query->query, self::$maxLength) : $query->query)
 				.'</td>';
-			$arguments = '';
-			foreach($query->arguments as $key => $value)
+			$parameters = '';
+			foreach($query->parameters as $key => $value)
 			{
-				$arguments .= $key.': '.$value."\n";
+				$parameters .= $key.': '.$value."\n";
 			}
-			$s .= '<td>'.$arguments.'</td>';
+			$s .= '<td>'.$parameters.'</td>';
 			$s .= '<td>'.$query->results.'</td>';
 			$s .= '</tr>';
 		}
@@ -101,7 +101,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 			<h1>Queries: ' . count($this->queries) . ($this->totalTime ? ', time: ' . sprintf('%0.3f', $this->totalTime * 1000) . ' ms' : '') . '</h1>
 			<div class="nette-inner neo4j-panel">
 			<table>
-				<tr><th>Time&nbsp;µs</th><th>Query</th><th>Arguments</th><th>Results</th></tr>' . $s . '
+				<tr><th>Time&nbsp;µs</th><th>Query</th><th>Parameters</th><th>Results</th></tr>' . $s . '
 			</table>
 			</div>';
 	}
