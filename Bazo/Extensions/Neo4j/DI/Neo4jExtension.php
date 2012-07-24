@@ -81,7 +81,8 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 		\Doctrine\Common\Annotations\AnnotationRegistry::registerFile(VENDOR_DIR . '/hirevoice/neo4jphp-ogm/lib/HireVoice/Neo4j/Annotation/ManyToOne.php');
 		\Doctrine\Common\Annotations\AnnotationRegistry::registerFile(VENDOR_DIR . '/hirevoice/neo4jphp-ogm/lib/HireVoice/Neo4j/Annotation/Property.php');
 		
-		$metadataCache = new self::$cacheClassMap($config['metaDataCache']);
+		$metadataCacheClass = self::$cacheClassMap[$config['metaDataCache']];
+		$metadataCache = new $metadataCacheClass;
 		$metadataCache->setNamespace($config['cachePrefix']);
 		
 		$reader = new \Doctrine\Common\Annotations\CachedReader(
