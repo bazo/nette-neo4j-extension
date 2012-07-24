@@ -16,9 +16,24 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 	 */
 	public $defaults = array(
 		'host' => 'localhost',
-		'port' => 7474
+		'port' => 7474,
+		'cachePrefix' => 'neo4j',
+		'metaDataCache' => 'array',
+		'proxyDir' => '%appDir%/models/proxies'
 	);
 	
+	private 
+		$cacheClassMap = array(
+			'array' => '\Doctrine\Common\Cache\ArrayCache',
+			'apc' => '\Doctrine\Common\Cache\ApcCache',
+			'filesystem' => '\Doctrine\Common\Cache\FilesystemCache',
+			'phpFile' => '\Doctrine\Common\Cache\PhpFileCache',
+			'winCache' => '\Doctrine\Common\Cache\WinCacheCache',
+			'xcache' => '\Doctrine\Common\Cache\XcacheCache',
+			'zendData' => '\Doctrine\Common\Cache\ZendDataCache'
+		)
+	;		
+
 	/**
 	 * Processes configuration data
 	 *
@@ -66,7 +81,7 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 		\Doctrine\Common\Annotations\AnnotationRegistry::registerFile(VENDOR_DIR . '/hirevoice/neo4jphp-ogm/lib/HireVoice/Neo4j/Annotation/ManyToOne.php');
 		\Doctrine\Common\Annotations\AnnotationRegistry::registerFile(VENDOR_DIR . '/hirevoice/neo4jphp-ogm/lib/HireVoice/Neo4j/Annotation/Property.php');
 		
-		$metadataCache = new $config['metaDataCacheClass'];
+		$metadataCache = new $this->cacheClassMap($config['metaDataCache']);
 		$metadataCache->setNamespace($config['cachePrefix']);
 		
 		$reader = new \Doctrine\Common\Annotations\CachedReader(
