@@ -91,7 +91,7 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 			'host' => $config['host'], 
 			'port' => $config['port'],
 			'proxyDir' => $config['proxyDir'],
-			'debug' => true,
+			'debug' => $config['debug'],
 			'annotationReader' => $reader
 		));
 		
