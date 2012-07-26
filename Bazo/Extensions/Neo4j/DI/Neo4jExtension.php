@@ -19,7 +19,8 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 		'port' => 7474,
 		'cachePrefix' => 'neo4j',
 		'metaDataCache' => 'array',
-		'proxyDir' => '%appDir%/models/proxies'
+		'proxyDir' => '%appDir%/models/proxies',
+		'debug' => false
 	);
 	
 	private static
