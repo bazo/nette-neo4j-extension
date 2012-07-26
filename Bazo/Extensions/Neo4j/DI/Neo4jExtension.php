@@ -50,10 +50,6 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 			->setFactory('Bazo\Extensions\Neo4j\DI\Neo4jExtension::createNeo4jClient', array('@container', $config))
 			->setAutowired(FALSE);
 		
-		$builder->addDefinition('neo4jClient')
-			->setClass('\Everyman\Neo4j\Client')
-			->setFactory('@container::getService', array($this->prefix('client')));
-		
 		$builder->addDefinition($this->prefix('entityManager'))
 			->setClass('\HireVoice\Neo4j\EntityManager')
 			->setFactory('Bazo\Extensions\Neo4j\DI\Neo4jExtension::createEntityManager', array('@container', $config))
@@ -69,7 +65,7 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 	
 	public static function createNeo4jClient(\Nette\DI\Container $container, $config)
 	{
-		return new \Everyman\Neo4j\Client($config['host'], $config['port']);
+		return $container->neo4j->entityManager->getClient();
 	}
 	
 	public static function createEntityManager(\Nette\DI\Container $container, $config)
@@ -91,16 +87,21 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 			false
 		);
 		
-		$client = $container->neo4jClient;
-		$metaRepository = new \HireVoice\Neo4j\Meta\Repository($reader);
-		$em = new \HireVoice\Neo4j\EntityManager($client, $metaRepository);
+		$configuration = new \HireVoice\Neo4j\Configuration(array(
+			'host' => $config['host'], 
+			'port' => $config['port'],
+			'proxyDir' => $config['proxyDir'],
+			'debug' => true,
+			'annotationReader' => $reader
+		));
+		
+		$em = new \HireVoice\Neo4j\EntityManager($configuration);
 		
 		$panel = $container->neo4j->panel;
 		$em->registerEvent(\HireVoice\Neo4j\EntityManager::QUERY_RUN, function($query, $parameters, $time)use($panel){
 			$panel->addQuery($query, $parameters, $time);
 		});
 		
-		$em->setProxyFactory(new \HireVoice\Neo4j\Proxy\Factory($config['proxyDir'], true));
 		return $em;
 	}
 	
