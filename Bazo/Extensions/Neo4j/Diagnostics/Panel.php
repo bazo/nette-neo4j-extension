@@ -34,8 +34,9 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	 */
 	private $queries = array();
 
-	private function getQueryType(Query $query)
+	private function getQueryType(Query $query = null)
 	{
+		if($query === null) return null;
 		$types = array(
 			'Everyman\Neo4j\Cypher\Query' => 'cypher',
 			'Everyman\Neo4j\Gremlin\Query' => 'gremlin'
@@ -44,15 +45,15 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 		return $types[$class];
 	}
 
-	public function addQuery(Query $query, $parameters, $time)
+	public function addQuery(Query $query = null, $parameters = array(), $time = null)
 	{
 		$type = $this->getQueryType($query);
 		$queryEntry = (object)array(
 			'type' => $type,
-			'query'=> $query->getQuery(),
+			'query'=> ($query !== null) ? $query->getQuery() : '',
 			'parameters' => $parameters,
 			'time' => $time,
-			'results' => $query->getResultSet()->count()
+			'results' => ($query !== null) ? $query->getResultSet()->count() : 'n/a'
 		);
 		
 		$this->totalTime += $time;
