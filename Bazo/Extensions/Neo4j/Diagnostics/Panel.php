@@ -110,7 +110,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	 * @param Neo4j\Exception $e
 	 * @return type 
 	 */
-	public static function renderException(\Exception $e)
+	public static function renderException(\Exception $e = null)
 	{
 		if ($e instanceof Neo4j\Exception) {
 			$panel = NULL;
