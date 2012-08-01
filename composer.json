@@ -1,6 +1,6 @@
 {
     "name": "bazo/nette-neo4j-extension",
-	"type": "library",
+    "type": "nette-addon",
     "description": "Nette Neo4j compiler extension",
     "keywords": ["nette", "neo4j", "graph", "database", "extension"],
     "homepage": "https://github.com/bazo/nette-neo4j-extension",
@@ -13,9 +13,17 @@
     ],
     "require": {
         "php": ">=5.3.0",
-		"hirevoice/neo4jphp-ogm": "*"
+        "hirevoice/neo4jphp-ogm": "*",
+        "nette/addon-installer": "@dev"
     },
-	"autoload": {
+    "autoload": {
         "psr-0": { "Bazo\\Extensions\\Neo4j": "" }
+    },
+    "extra": {
+        "nette-addon": {
+            "config-extensions": {
+                "neo4j": "Bazo\\Extensions\\Neo4j\\DI\\Neo4jExtension"
+            }
+        }
     }
 }
