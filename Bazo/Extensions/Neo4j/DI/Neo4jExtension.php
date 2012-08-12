@@ -20,7 +20,9 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 		'cachePrefix' => 'neo4j',
 		'metaDataCache' => 'array',
 		'proxyDir' => '%appDir%/models/proxies',
-		'debug' => false
+		'debug' => false,
+		'username' => null,
+		'password' => null
 	);
 	
 	private static
@@ -93,6 +95,8 @@ class Neo4jExtension extends \Nette\Config\CompilerExtension
 			'port' => $config['port'],
 			'proxyDir' => $config['proxyDir'],
 			'debug' => $config['debug'],
+			'username' => $config['username'],
+			'password' => $config['password'],
 			'annotationReader' => $reader
 		));
 		
