@@ -18,12 +18,5 @@
     },
     "autoload": {
         "psr-0": { "Bazo\\Extensions\\Neo4j": "" }
-    },
-    "extra": {
-        "nette-addon": {
-            "config-extensions": {
-                "neo4j": "Bazo\\Extensions\\Neo4j\\DI\\Neo4jExtension"
-            }
-        }
     }
 }
